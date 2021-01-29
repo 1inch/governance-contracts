@@ -48,7 +48,6 @@ library UniERC20 {
             }
         }
     }
-
     function uniSymbol(IERC20 token) internal view returns(string memory) {
         if (isETH(token)) {
             return "ETH";
