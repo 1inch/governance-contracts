@@ -1,0 +1,43 @@
+Starting migrations...
+======================
+> Network name:    'bsc'
+> Network id:      56
+> Block gas limit: 30000000 (0x1c9c380)
+
+
+1_initial_migration.js
+======================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+2_bsc.js
+========
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+3_bsc_govrewards.js
+===================
+Deployer account: 0x11799622F4D98A24514011E8527B969f7488eF47
+Deployer balance: 0.985234646 ETH
+
+   Deploying 'GovernanceRewards'
+   -----------------------------
+   > transaction hash:    0x04ea29c16fcfb74503e6f8b01f8aec5792deb28b7d6b872734e615c6a4afeee8
+   > Blocks: 1            Seconds: 4
+   > contract address:    0x59a0A6d73e6a5224871f45E6d845ce1574063ADe
+   > block number:        4993918
+   > block timestamp:     1613668346
+   > account:             0x11799622F4D98A24514011E8527B969f7488eF47
+   > balance:             0.983702784
+   > gas used:            1531862 (0x175fd6)
+   > gas price:           1 gwei
+   > value sent:          0 ETH
+   > total cost:          0.001531862 ETH
+
+
+Summary
+=======
+> Total deployments:   1
+> Final cost:          0.001531862 ETH
