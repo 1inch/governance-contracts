@@ -1,7 +1,7 @@
 require('@nomiclabs/hardhat-truffle5');
-// require('@nomiclabs/hardhat-solhint');
-// require('solidity-coverage');
-// require('hardhat-gas-reporter');
+require('solidity-coverage');
+require('hardhat-gas-reporter');
+
 
 /**
  * @type import('hardhat/config').HardhatUserConfig
@@ -21,9 +21,9 @@ module.exports = {
       blockGasLimit: 10000000,
     },
   },
-//   gasReporter: {
-//     enable: true,
-//     currency: 'USD',
-//     outputFile: process.env.CI ? 'gas-report.txt' : undefined,
-//   },
+  gasReporter: {
+    enable: true,
+    currency: 'USD',
+    outputFile: process.env.CI ? 'gas-report.txt' : undefined,
+  },
 };
