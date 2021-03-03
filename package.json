@@ -40,7 +40,6 @@
         "verify:kovan": "truffle run verify ExchangeGovernance --network kovan",
         "verify:mainnet": "truffle run verify ExchangeGovernance --network mainnet",
         "coverage": "hardhat coverage",
-        "coveralls": "truffle run coverage && cat coverage/lcov.info | coveralls",
         "lint:js": "eslint .",
         "lint:js:fix": "eslint . --fix",
         "lint:sol": "solhint --max-warnings 0 \"contracts/**/*.sol\"",
