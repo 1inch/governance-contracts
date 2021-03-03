@@ -33,7 +33,7 @@ jobs:
       - run: yarn test
       - run: cat gas-report.txt
 
-      coverage:
+  coverage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
