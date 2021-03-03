@@ -291,13 +291,6 @@
     safe-buffer "^5.1.1"
     util.promisify "^1.0.0"
 
-"@nomiclabs/hardhat-solhint@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@nomiclabs/hardhat-solhint/-/hardhat-solhint-2.0.0.tgz#28f2c6b50709a91538ba69c1c8fe60985bf920f3"
-  integrity sha512-fn+izC923/oCnfbGyp7YwOXZYtwcrDIrTLlFVeEgeSAHe2ZnipRRtNCxEClZuzCptHmTzIIayBmAaijsTmEAoA==
-  dependencies:
-    solhint "^2.0.0"
-
 "@nomiclabs/hardhat-truffle5@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@nomiclabs/hardhat-truffle5/-/hardhat-truffle5-2.0.0.tgz#1363b7f4f90e3d5b049d22e5e6d3519ba1b91fdf"
@@ -2465,7 +2458,7 @@ eth-ens-namehash@2.0.8, eth-ens-namehash@^2.0.0:
     idna-uts46-hx "^2.3.1"
     js-sha3 "^0.5.7"
 
-eth-gas-reporter@^0.2.17, eth-gas-reporter@^0.2.20:
+eth-gas-reporter@^0.2.20:
   version "0.2.21"
   resolved "https://registry.yarnpkg.com/eth-gas-reporter/-/eth-gas-reporter-0.2.21.tgz#8cb879a1085bf180d38ac46bb5e4cd99c774c99c"
   integrity sha512-lSl9wjxPCxhDcvwvF1UwKHAUtOpjm9Lr/Can3GuxB18mACtkIlrHe3PDwt0kpYvvFvHjxiG5dO9cjovaIa+8gQ==
@@ -5858,26 +5851,6 @@ solc@^0.6.12:
     require-from-string "^2.0.0"
     semver "^5.5.0"
     tmp "0.0.33"
-
-solhint@^2.0.0:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/solhint/-/solhint-2.3.1.tgz#6fee8fc2635112bf5812f7cba8359c14e9d9a491"
-  integrity sha512-wP/G+Dqj8LNWlCI9Mt6XiQRWQfZwv1rkZe/V+HKtip5SAZJVvp144PdH28KE45ZvR99Hhrp/Mujt74fSmXsFiw==
-  dependencies:
-    ajv "^6.6.1"
-    antlr4 "4.7.1"
-    chalk "^2.4.2"
-    commander "2.18.0"
-    cosmiconfig "^5.0.7"
-    eslint "^5.6.0"
-    fast-diff "^1.1.2"
-    glob "^7.1.3"
-    ignore "^4.0.6"
-    js-yaml "^3.12.0"
-    lodash "^4.17.11"
-    semver "^6.3.0"
-  optionalDependencies:
-    prettier "^1.14.3"
 
 solhint@^3.3.2:
   version "3.3.2"
