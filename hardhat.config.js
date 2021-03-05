@@ -2,8 +2,7 @@ require('@nomiclabs/hardhat-ethers');
 require('@nomiclabs/hardhat-truffle5');
 require('solidity-coverage');
 require('hardhat-gas-reporter');
-require('dotenv').config()
-
+require('dotenv').config();
 
 module.exports = {
     solidity: {
