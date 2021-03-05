@@ -7,7 +7,7 @@ const TokenMock = artifacts.require('TokenMock');
 
 contract('GovernanceMothership', function ([wallet1, wallet2]) {
     beforeEach(async function () {
-        this.token = await TokenMock.new('INCH', 'INCH', 18);
+        this.token = await TokenMock.new('INCH', 'INCH');
         this.governanceMothership = await GovernanceMothership.new(this.token.address);
     });
 
