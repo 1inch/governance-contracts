@@ -4,3 +4,4 @@ coverage.json
 build
 artifacts
 cache
+.env
