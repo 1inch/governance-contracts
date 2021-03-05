@@ -1,0 +1,9 @@
+BOOM Token deployed to: 0x32d12a25f539E341089050E2d26794F041fC9dF8
+GovernanceMothership deployed to: 0xB33839E05CE9Fc53236Ae325324A27612F4d110D
+ExchangeGovernance deployed to: 0xCB06dF7F0Be5B8Bb261d294Cf87C794EB9Da85b1
+GovernanceRewards deployed to: 0xE1b8Ff58432916CCfBF65a467B66fa4313Dc04d3
+Do not forget to governanceMothership.transferOwnership(OWNER), where:
+ - governanceMothership = 0xB33839E05CE9Fc53236Ae325324A27612F4d110D
+ - OWNER = 0x7e11a8887A2c445883AcC453738635bC3aCDAdb6
+ - governanceMothership.owner() = 0x11799622F4D98A24514011E8527B969f7488eF47
+ 
