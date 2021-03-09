@@ -22,6 +22,6 @@ contract GovernanceRewards is BaseGovernanceModule, BaseRewards {
     function rescueFunds(IERC20 token, uint256 amount) external onlyOwner {
         require(token != gift, "Can't rescue gift");
 
-        token.uniTransfer(msg.sender, amount);
+        token.safeTransfer(msg.sender, amount);
     }
 }
