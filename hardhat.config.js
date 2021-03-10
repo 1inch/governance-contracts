@@ -5,6 +5,8 @@ require('solidity-coverage');
 require('hardhat-gas-reporter');
 require('dotenv').config();
 
+const networks = require('./hardhat.networks')
+
 module.exports = {
     solidity: {
         version: '0.6.12',
@@ -15,24 +17,7 @@ module.exports = {
             },
         },
     },
-    networks: {
-        hardhat: {
-            blockGasLimit: 10000000,
-        },
-        mainnet: {
-            url: process.env.MAINNET_RPC_URL,
-            chainId: 1,
-            gasPrice: 120000000000,
-            gas: 3000000,
-            accounts: [process.env.MAINNET_PRIVATE_KEY],
-        },
-        bsc: {
-            url: process.env.BSC_RPC_URL,
-            chainId: 56,
-            gasPrice: 10000000000,
-            accounts: [process.env.BSC_PRIVATE_KEY],
-        },
-    },
+    networks,
     namedAccounts: {
         deployer: {
             default: 0,
