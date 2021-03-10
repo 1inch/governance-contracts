@@ -2,7 +2,6 @@
 
 pragma solidity ^0.6.0;
 
-import "../interfaces/IExchangeGovernance.sol";
 import "../libraries/ExchangeConstants.sol";
 import "../libraries/LiquidVoting.sol";
 import "../libraries/SafeCast.sol";
@@ -10,7 +9,7 @@ import "../utils/BalanceAccounting.sol";
 import "./BaseGovernanceModule.sol";
 
 
-contract ExchangeGovernance is IExchangeGovernance, BaseGovernanceModule, BalanceAccounting {
+contract ExchangeGovernance is BaseGovernanceModule, BalanceAccounting {
     using Vote for Vote.Data;
     using LiquidVoting for LiquidVoting.Data;
     using VirtualVote for VirtualVote.Data;
@@ -18,23 +17,19 @@ contract ExchangeGovernance is IExchangeGovernance, BaseGovernanceModule, Balanc
 
     event LeftoverGovernanceShareUpdate(address indexed user, uint256 vote, bool isDefault, uint256 amount);
     event LeftoverReferralShareUpdate(address indexed user, uint256 vote, bool isDefault, uint256 amount);
-    event LeftoverTeamShareUpdate(address indexed user, uint256 vote, bool isDefault, uint256 amount);
 
     LiquidVoting.Data private _leftoverGovernanceShare;
-    LiquidVoting.Data private _leftoverReferralShare;
 
     constructor(address _mothership) public BaseGovernanceModule(_mothership) {
         _leftoverGovernanceShare.data.result = ExchangeConstants._DEFAULT_LEFTOVER_GOV_SHARE.toUint104();
-        _leftoverReferralShare.data.result = ExchangeConstants._DEFAULT_LEFTOVER_REF_SHARE.toUint104();
     }
 
-    function parameters() external view override returns(uint256 govShare, uint256 refShare, uint256 teamShare) {
+    function parameters() external view returns(uint256 govShare, uint256 refShare) {
         govShare = _leftoverGovernanceShare.data.current();
-        refShare = _leftoverReferralShare.data.current();
-        teamShare = ExchangeConstants._LEFTOVER_TOTAL_SHARE.sub(govShare).sub(refShare);
+        refShare = ExchangeConstants._LEFTOVER_TOTAL_SHARE.sub(govShare);
     }
 
-    function leftoverGovernanceShare() external view override returns(uint256) {
+    function leftoverGovernanceShare() external view returns(uint256) {
         return _leftoverGovernanceShare.data.current();
     }
 
@@ -48,49 +43,26 @@ contract ExchangeGovernance is IExchangeGovernance, BaseGovernanceModule, Balanc
 
     //
 
-    function leftoverReferralShare() external view override returns(uint256) {
-        return _leftoverReferralShare.data.current();
+    function leftoverReferralShare() external view returns(uint256) {
+        return ExchangeConstants._LEFTOVER_TOTAL_SHARE.sub(_leftoverGovernanceShare.data.current());
     }
 
     function leftoverReferralShareVotes(address user) external view returns(uint256) {
-        return _leftoverReferralShare.votes[user].get(ExchangeConstants._DEFAULT_LEFTOVER_REF_SHARE);
+        return ExchangeConstants._LEFTOVER_TOTAL_SHARE.sub(_leftoverGovernanceShare.votes[user].get(ExchangeConstants._DEFAULT_LEFTOVER_GOV_SHARE));
     }
 
     function virtualLeftoverReferralShare() external view returns(uint104, uint104, uint48) {
-        return (_leftoverReferralShare.data.oldResult, _leftoverReferralShare.data.result, _leftoverReferralShare.data.time);
-    }
-
-    //
-
-    function leftoverTeamShare() external view override returns(uint256) {
-        return ExchangeConstants._LEFTOVER_TOTAL_SHARE
-            .sub(_leftoverGovernanceShare.data.current())
-            .sub(_leftoverReferralShare.data.current());
-    }
-
-    function leftoverTeamShareVotes(address user) external view returns(uint256) {
-        return ExchangeConstants._LEFTOVER_TOTAL_SHARE
-            .sub(_leftoverGovernanceShare.votes[user].get(ExchangeConstants._DEFAULT_LEFTOVER_GOV_SHARE))
-            .sub(_leftoverReferralShare.votes[user].get(ExchangeConstants._DEFAULT_LEFTOVER_REF_SHARE));
-    }
-
-    function virtualLeftoverTeamShare() external view returns(uint104, uint104, uint48) {
         return (
-            ExchangeConstants._LEFTOVER_TOTAL_SHARE
-                .sub(_leftoverGovernanceShare.data.oldResult)
-                .sub(_leftoverReferralShare.data.oldResult).toUint104(),
-            ExchangeConstants._LEFTOVER_TOTAL_SHARE
-                .sub(_leftoverGovernanceShare.data.result)
-                .sub(_leftoverReferralShare.data.result).toUint104(),
+            ExchangeConstants._LEFTOVER_TOTAL_SHARE.sub(_leftoverGovernanceShare.data.oldResult).toUint104(),
+            ExchangeConstants._LEFTOVER_TOTAL_SHARE.sub(_leftoverGovernanceShare.data.result).toUint104(),
             _leftoverGovernanceShare.data.time
         );
     }
 
     ///
 
-    function leftoverShareVote(uint256 govShare, uint256 refShare) external {
-        uint256 teamShare = ExchangeConstants._LEFTOVER_TOTAL_SHARE
-            .sub(govShare.add(refShare), "Leftover shares are too high");
+    function leftoverShareVote(uint256 govShare) external {
+        uint256 refShare = ExchangeConstants._LEFTOVER_TOTAL_SHARE.sub(govShare, "Governance share is too high");
 
         uint256 balance = balanceOf(msg.sender);
         uint256 supply = totalSupply();
@@ -105,17 +77,7 @@ contract ExchangeGovernance is IExchangeGovernance, BaseGovernanceModule, Balanc
             _emitLeftoverGovernanceShareVoteUpdate
         );
 
-        _leftoverReferralShare.updateVote(
-            msg.sender,
-            _leftoverReferralShare.votes[msg.sender],
-            Vote.init(refShare),
-            balance,
-            supply,
-            ExchangeConstants._DEFAULT_LEFTOVER_REF_SHARE,
-            _emitLeftoverReferralShareVoteUpdate
-        );
-
-        _emitLeftoverTeamShareVoteUpdate(msg.sender, teamShare, false, balance);
+        _emitLeftoverReferralShareVoteUpdate(msg.sender, refShare, false, balance);
     }
 
     function discardLeftoverShareVote() external {
@@ -132,17 +94,7 @@ contract ExchangeGovernance is IExchangeGovernance, BaseGovernanceModule, Balanc
            _emitLeftoverGovernanceShareVoteUpdate
         );
 
-        _leftoverReferralShare.updateVote(
-           msg.sender,
-           _leftoverReferralShare.votes[msg.sender],
-           Vote.init(),
-           balance,
-           supply,
-           ExchangeConstants._DEFAULT_LEFTOVER_REF_SHARE,
-           _emitLeftoverReferralShareVoteUpdate
-        );
-
-        _emitLeftoverTeamShareVoteUpdate(msg.sender, ExchangeConstants._DEFAULT_LEFTOVER_TEAM_SHARE, true, balance);
+        _emitLeftoverReferralShareVoteUpdate(msg.sender, ExchangeConstants._DEFAULT_LEFTOVER_REF_SHARE, true, balance);
     }
 
     function _notifyStakeChanged(address account, uint256 newBalance) internal override {
@@ -152,10 +104,7 @@ contract ExchangeGovernance is IExchangeGovernance, BaseGovernanceModule, Balanc
         }
 
         Vote.Data memory govShareVote = _leftoverGovernanceShare.votes[account];
-        Vote.Data memory refShareVote = _leftoverReferralShare.votes[account];
-        uint256 teamShare = ExchangeConstants._LEFTOVER_TOTAL_SHARE
-            .sub(govShareVote.get(ExchangeConstants._DEFAULT_LEFTOVER_GOV_SHARE))
-            .sub(refShareVote.get(ExchangeConstants._DEFAULT_LEFTOVER_REF_SHARE));
+        uint256 refShare = ExchangeConstants._LEFTOVER_TOTAL_SHARE.sub(govShareVote.get(ExchangeConstants._DEFAULT_LEFTOVER_GOV_SHARE));
         uint256 supply = totalSupply();
 
         _leftoverGovernanceShare.updateBalance(
@@ -168,19 +117,9 @@ contract ExchangeGovernance is IExchangeGovernance, BaseGovernanceModule, Balanc
             _emitLeftoverGovernanceShareVoteUpdate
         );
 
-        _leftoverReferralShare.updateBalance(
+        _emitLeftoverReferralShareVoteUpdate(
             account,
-            refShareVote,
-            balance,
-            newBalance,
-            supply,
-            ExchangeConstants._DEFAULT_LEFTOVER_REF_SHARE,
-            _emitLeftoverReferralShareVoteUpdate
-        );
-
-        _emitLeftoverTeamShareVoteUpdate(
-            account,
-            teamShare,
+            refShare,
             govShareVote.isDefault(),
             newBalance
         );
@@ -192,9 +131,5 @@ contract ExchangeGovernance is IExchangeGovernance, BaseGovernanceModule, Balanc
 
     function _emitLeftoverReferralShareVoteUpdate(address user, uint256 newDefaultShare, bool isDefault, uint256 balance) private {
         emit LeftoverReferralShareUpdate(user, newDefaultShare, isDefault, balance);
-    }
-
-    function _emitLeftoverTeamShareVoteUpdate(address user, uint256 newDefaultShare, bool isDefault, uint256 balance) private {
-        emit LeftoverTeamShareUpdate(user, newDefaultShare, isDefault, balance);
     }
 }
