@@ -1,10 +1,10 @@
 const { getChainId } = require('hardhat');
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
-    console.log("running deploy script")
-    console.log("network id ", await getChainId())
+    console.log('running deploy script');
+    console.log('network id ', await getChainId());
 
-    const { deploy } = deployments
+    const { deploy } = deployments;
     const { deployer } = await getNamedAccounts();
 
     const governanceMothership = await deployments.get('GovernanceMothership');
@@ -12,8 +12,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const exchangeGovernance = await deploy('ExchangeGovernance', {
         args: [governanceMothership.address],
         from: deployer,
-        skipIfAlreadyDeployed: true
+        skipIfAlreadyDeployed: true,
     });
 
     console.log('ExchangeGovernance deployed to:', exchangeGovernance.address);
-}
+};

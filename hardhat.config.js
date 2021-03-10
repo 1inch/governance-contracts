@@ -31,11 +31,11 @@ module.exports = {
             chainId: 56,
             gasPrice: 10000000000,
             accounts: [process.env.BSC_PRIVATE_KEY],
-        }
+        },
     },
     namedAccounts: {
         deployer: {
-            default: 0
+            default: 0,
         },
     },
     etherscan: {
