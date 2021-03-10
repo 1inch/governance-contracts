@@ -5,7 +5,7 @@ require('solidity-coverage');
 require('hardhat-gas-reporter');
 require('dotenv').config();
 
-const networks = require('./hardhat.networks')
+const networks = require('./hardhat.networks');
 
 module.exports = {
     solidity: {
