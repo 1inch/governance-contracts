@@ -35,19 +35,13 @@
     "scripts": {
         "test": "hardhat test --show-stack-traces",
         "clean": "rimraf artifacts cache coverage",
-        "deploy:bsc": "truffle migrate --network bsc --reset",
-        "deploy:kovan": "truffle migrate --network kovan --reset",
-        "deploy:mainnet": "truffle migrate --network mainnet --reset",
-        "verify:bsc": "truffle run verify ExchangeGovernance --network bsc",
-        "verify:kovan": "truffle run verify ExchangeGovernance --network kovan",
-        "verify:mainnet": "truffle run verify ExchangeGovernance --network mainnet",
+        "deploy": "hardhat deploy --network",
         "coverage": "hardhat coverage",
         "lint:js": "eslint .",
         "lint:js:fix": "eslint . --fix",
         "lint:sol": "solhint --max-warnings 0 \"contracts/**/*.sol\"",
         "lint:sol:fix": "solhint --max-warnings 0 \"contracts/**/*.sol\" --fix",
         "lint": "yarn run lint:js && yarn run lint:sol",
-        "lint:fix": "yarn run lint:js:fix && yarn run lint:sol:fix",
-        "dist": "rm -rf build && yarn truffle compile && mkdir -p dist && cp build/contracts/GovernanceMothership.json dist/ && cp build/contracts/GovernanceRewards.json dist/ && cp build/contracts/ExchangeGovernance.json dist/"
+        "lint:fix": "yarn run lint:js:fix && yarn run lint:sol:fix"
     }
 }
