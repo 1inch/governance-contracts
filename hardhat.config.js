@@ -1,5 +1,5 @@
 require('@nomiclabs/hardhat-ethers');
-// require('@nomiclabs/hardhat-etherscan');
+require('hardhat-deploy');
 require('@nomiclabs/hardhat-truffle5');
 require('solidity-coverage');
 require('hardhat-gas-reporter');
@@ -26,9 +26,20 @@ module.exports = {
             gas: 3000000,
             accounts: [process.env.MAINNET_PRIVATE_KEY],
         },
+        bsc: {
+            url: process.env.BSC_RPC_URL,
+            chainId: 56,
+            gasPrice: 10000000000,
+            accounts: [process.env.BSC_PRIVATE_KEY],
+        }
+    },
+    namedAccounts: {
+        deployer: {
+            default: 0
+        },
     },
     etherscan: {
-        apiKey: process.env.MAINNET_ETHERSCAN_KEY,
+        apiKey: process.env.BSC_ETHERSCAN_KEY,
     },
     gasReporter: {
         enable: true,
