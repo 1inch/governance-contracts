@@ -17,3 +17,5 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     console.log('ExchangeGovernance deployed to:', exchangeGovernance.address);
 };
+
+module.exports.skip = async () => true;
