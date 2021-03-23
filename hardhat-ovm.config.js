@@ -1,5 +1,6 @@
 require('@nomiclabs/hardhat-ethers');
 require('@nomiclabs/hardhat-truffle5');
+require('hardhat-deploy');
 require('@eth-optimism/plugins/hardhat/compiler');
 require('dotenv').config();
 
@@ -14,6 +15,11 @@ module.exports = {
                 enabled: true,
                 runs: 1000000,
             },
+        },
+    },
+    namedAccounts: {
+        deployer: {
+            default: 0,
         },
     },
     networks: {
