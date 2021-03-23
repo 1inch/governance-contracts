@@ -28,6 +28,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
+      - name: Create env file
+        run: |
+          touch .env
+          echo MAINNET_RPC_URL=${{ secrets.MAINNET_RPC_URL }} >> .env
+          echo BSC_RPC_URL=${{ secrets.BSC_RPC_URL }} >> .env
+
       - run: yarn
       - run: yarn lint
       - run: yarn test
@@ -52,6 +58,12 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+
+      - name: Create env file
+        run: |
+          touch .env
+          echo MAINNET_RPC_URL=${{ secrets.MAINNET_RPC_URL }} >> .env
+          echo BSC_RPC_URL=${{ secrets.BSC_RPC_URL }} >> .env
 
       - run: yarn
       - run: yarn coverage

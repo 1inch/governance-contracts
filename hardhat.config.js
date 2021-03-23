@@ -1,8 +1,11 @@
 require('@nomiclabs/hardhat-ethers');
+require('hardhat-deploy');
 require('@nomiclabs/hardhat-truffle5');
 require('solidity-coverage');
 require('hardhat-gas-reporter');
 require('dotenv').config();
+
+const networks = require('./hardhat.networks');
 
 module.exports = {
     solidity: {
@@ -14,10 +17,14 @@ module.exports = {
             },
         },
     },
-    networks: {
-        hardhat: {
-            blockGasLimit: 10000000,
+    networks,
+    namedAccounts: {
+        deployer: {
+            default: 0,
         },
+    },
+    etherscan: {
+        apiKey: process.env.BSC_ETHERSCAN_KEY,
     },
     gasReporter: {
         enable: true,
