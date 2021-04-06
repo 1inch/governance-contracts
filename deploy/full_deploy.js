@@ -15,28 +15,28 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const GovernanceMothership = await ethers.getContractFactory('GovernanceMothership');
     const GovernanceRewards = await ethers.getContractFactory('GovernanceRewards');
 
-    const tokenMockDeployment = await deploy('TokenMock', {
+    const tokenMockDeployment = await deploy('TokenMock-ovm', {
         args: ['BOOM', 'BOOM'],
         from: deployer,
         skipIfAlreadyDeployed: true,
     });
     console.log('BOOM Token deployed to:', tokenMockDeployment.address);
 
-    const governanceMothershipDeployment = await deploy('GovernanceMothership', {
+    const governanceMothershipDeployment = await deploy('GovernanceMothership-ovm', {
         args: [tokenMockDeployment.address],
         from: deployer,
         skipIfAlreadyDeployed: true,
     });
     console.log('GovernanceMothership deployed to:', governanceMothershipDeployment.address);
 
-    const exchangeGovernanceDeployment = await deploy('ExchangeGovernance', {
+    const exchangeGovernanceDeployment = await deploy('ExchangeGovernance-ovm', {
         args: [governanceMothershipDeployment.address],
         from: deployer,
         skipIfAlreadyDeployed: true,
     });
     console.log('ExchangeGovernance deployed to:', exchangeGovernanceDeployment.address);
 
-    const governanceRewardsDeployment = await deploy('GovernanceRewards', {
+    const governanceRewardsDeployment = await deploy('GovernanceRewards-ovm', {
         args: [tokenMockDeployment.address, governanceMothershipDeployment.address],
         from: deployer,
         skipIfAlreadyDeployed: true,
@@ -62,25 +62,25 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const transferOwnershipTxn = await governanceRewards.transferOwnership(OWNER);
     await transferOwnershipTxn.wait();
 
-    await hre.run('verify:verify', {
-        address: tokenMockDeployment.address,
-        constructorArguments: ['BOOM', 'BOOM'],
-    });
+    // await hre.run('verify:verify', {
+    //     address: tokenMockDeployment.address,
+    //     constructorArguments: ['BOOM', 'BOOM'],
+    // });
 
-    await hre.run('verify:verify', {
-        address: governanceMothershipDeployment.address,
-        constructorArguments: [tokenMockDeployment.address],
-    });
+    // await hre.run('verify:verify', {
+    //     address: governanceMothershipDeployment.address,
+    //     constructorArguments: [tokenMockDeployment.address],
+    // });
 
-    await hre.run('verify:verify', {
-        address: exchangeGovernanceDeployment.address,
-        constructorArguments: [governanceMothershipDeployment.address],
-    });
+    // await hre.run('verify:verify', {
+    //     address: exchangeGovernanceDeployment.address,
+    //     constructorArguments: [governanceMothershipDeployment.address],
+    // });
 
-    await hre.run('verify:verify', {
-        address: governanceRewardsDeployment.address,
-        constructorArguments: [tokenMockDeployment.address, governanceMothershipDeployment.address],
-    });
+    // await hre.run('verify:verify', {
+    //     address: governanceRewardsDeployment.address,
+    //     constructorArguments: [tokenMockDeployment.address, governanceMothershipDeployment.address],
+    // });
 };
 
 module.exports.skip = async () => true;
