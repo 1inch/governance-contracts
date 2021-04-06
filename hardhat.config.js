@@ -1,6 +1,7 @@
 require('@nomiclabs/hardhat-ethers');
-require('hardhat-deploy');
+require('@nomiclabs/hardhat-etherscan');
 require('@nomiclabs/hardhat-truffle5');
+require('hardhat-deploy');
 require('solidity-coverage');
 require('hardhat-gas-reporter');
 require('dotenv').config();
@@ -24,7 +25,7 @@ module.exports = {
         },
     },
     etherscan: {
-        apiKey: process.env.BSC_ETHERSCAN_KEY,
+        apiKey: process.env.KOVAN_ETHERSCAN_KEY,
     },
     gasReporter: {
         enable: true,
