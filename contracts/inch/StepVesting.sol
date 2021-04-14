@@ -10,15 +10,14 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
 
 
-contract StepVesting is Ownable, Pausable {
+contract StepVesting is Ownable {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
     event ReceiverChanged(address oldWallet, address newWallet);
 
-    uint256 public immutable deployed;
+    uint256 public immutable started;
     IERC20 public immutable token;
-    address public immutable source;
     uint256 public immutable cliffDuration;
     uint256 public immutable stepDuration;
     uint256 public immutable cliffAmount;
@@ -35,7 +34,7 @@ contract StepVesting is Ownable, Pausable {
 
     constructor(
         IERC20 _token,
-        address _source,
+        uint256 _started,
         uint256 _cliffDuration,
         uint256 _stepDuration,
         uint256 _cliffAmount,
@@ -43,9 +42,8 @@ contract StepVesting is Ownable, Pausable {
         uint256 _numOfSteps,
         address _receiver
     ) public {
-        deployed = block.timestamp;
         token = _token;
-        source = _source;
+        started = _started;
         cliffDuration = _cliffDuration;
         stepDuration = _stepDuration;
         cliffAmount = _cliffAmount;
@@ -59,11 +57,11 @@ contract StepVesting is Ownable, Pausable {
     }
 
     function claimable() public view returns(uint256) {
-        if (block.timestamp < deployed.add(cliffDuration)) {
+        if (block.timestamp < started.add(cliffDuration)) {
             return 0;
         }
 
-        uint256 passedSinceCliff = block.timestamp.sub(deployed.add(cliffDuration));
+        uint256 passedSinceCliff = block.timestamp.sub(started.add(cliffDuration));
         uint256 stepsPassed = Math.min(numOfSteps, passedSinceCliff.div(stepDuration));
         return cliffAmount.add(
             stepsPassed.mul(stepAmount)
@@ -75,13 +73,14 @@ contract StepVesting is Ownable, Pausable {
         receiver = _receiver;
     }
 
-    function kill() external onlyOwner {
-        _pause();
+    function kill(address target) external onlyOwner {
+        uint256 amount = token.balanceOf(address(this));
+        token.safeTransfer(target, amount);
     }
 
     function claim() external onlyReceiver whenNotPaused {
         uint256 amount = available();
         claimed = claimed.add(amount);
-        token.safeTransferFrom(source, msg.sender, amount);
+        token.safeTransfer(msg.sender, amount);
     }
 }
