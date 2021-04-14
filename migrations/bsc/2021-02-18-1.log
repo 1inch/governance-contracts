@@ -1,0 +1,67 @@
+Starting migrations...
+======================
+> Network name:    'bsc'
+> Network id:      56
+> Block gas limit: 30000000 (0x1c9c380)
+
+
+1_initial_migration.js
+======================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+2_bsc.js
+========
+Deployer account: 0x11799622F4D98A24514011E8527B969f7488eF47
+Deployer balance: 0.988931044 ETH
+
+   Deploying 'GovernanceMothership'
+   --------------------------------
+   > transaction hash:    0x3ac4a0b163969c3567e7e97bbdf23000c4684479a016264730a3407c8bbdbe23
+   > Blocks: 1            Seconds: 4
+   > contract address:    0x73F0a6927A3c04E679074e70DFb9105F453e799D
+   > block number:        4993576
+   > block timestamp:     1613667251
+   > account:             0x11799622F4D98A24514011E8527B969f7488eF47
+   > balance:             0.987855538
+   > gas used:            1075506 (0x106932)
+   > gas price:           1 gwei
+   > value sent:          0 ETH
+   > total cost:          0.001075506 ETH
+
+
+   Deploying 'ExchangeGovernance'
+   ------------------------------
+   > transaction hash:    0xdd30730746f32aaffe4b29775a28dbf80fb6a2599de3a3510f54c2e5cab3153b
+   > Blocks: 5            Seconds: 20
+   > contract address:    0xCCf6b19bc2419E776b6ee030044811dA846686fb
+   > block number:        4993582
+   > block timestamp:     1613667274
+   > account:             0x11799622F4D98A24514011E8527B969f7488eF47
+   > balance:             0.986642668
+   > gas used:            1212870 (0x1281c6)
+   > gas price:           1 gwei
+   > value sent:          0 ETH
+   > total cost:          0.00121287 ETH
+
+
+   Deploying 'GovernanceRewards'
+   -----------------------------
+   > transaction hash:    0xcba39982c8a09ad319449d058a213ef96461bbaada20cbac00bdb75db05d5607
+   > Blocks: 1            Seconds: 4
+   > contract address:    0x735247fb0a604c0adC6cab38ACE16D0DbA31295F
+   > block number:        4993584
+   > block timestamp:     1613667280
+   > account:             0x11799622F4D98A24514011E8527B969f7488eF47
+   > balance:             0.985497904
+   > gas used:            1144764 (0x1177bc)
+   > gas price:           1 gwei
+   > value sent:          0 ETH
+   > total cost:          0.001144764 ETH
+
+
+Summary
+=======
+> Total deployments:   3
+> Final cost:          0.00343314 ETH

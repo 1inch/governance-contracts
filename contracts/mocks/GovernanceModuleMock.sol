@@ -2,7 +2,7 @@
 
 pragma solidity ^0.6.0;
 
-import "../governance/BaseGovernanceModule.sol";
+import "../modules/BaseGovernanceModule.sol";
 import "../utils/BalanceAccounting.sol";
 
 
