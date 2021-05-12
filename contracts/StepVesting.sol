@@ -67,11 +67,13 @@ contract StepVesting is Ownable {
     }
 
     function setReceiver(address _receiver) public onlyOwner {
+        require(_receiver != address(0), "Receiver is zero address");
         emit ReceiverChanged(receiver, _receiver);
         receiver = _receiver;
     }
 
     function kill(address target) external onlyOwner {
+        require(target != address(0), "Transfer to zero address");
         uint256 amount = token.balanceOf(address(this));
         token.safeTransfer(target, amount);
     }
