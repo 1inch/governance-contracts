@@ -19,4 +19,4 @@ module.exports = async ({ deployments }) => {
     await transferOwnershipTxn.wait();
 };
 
-module.exports.skip = async () => false;
+module.exports.skip = async () => true;
