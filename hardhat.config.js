@@ -25,7 +25,7 @@ module.exports = {
         },
     },
     etherscan: {
-        apiKey: process.env.KOVAN_ETHERSCAN_KEY,
+        apiKey: process.env.MAINNET_ETHERSCAN_KEY,
     },
     gasReporter: {
         enable: true,
